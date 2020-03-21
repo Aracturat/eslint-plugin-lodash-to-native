@@ -13,6 +13,8 @@
     "test": "mocha tests --recursive"
   },
   "dependencies": {
+    "@types/eslint": "^6.1.8",
+    "@types/estree": "0.0.44",
     "requireindex": "~1.1.0"
   },
   "devDependencies": {
