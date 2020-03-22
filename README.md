@@ -1,46 +1,57 @@
 # eslint-plugin-lodash-to-native
 
-Use of native native map where it is possible
+Данный плагин проверяет, что используется Array#map() вместо _.map() там, где это возможно.
 
-## Installation
+Правило `lodash-to-native/map` также предлагает следующие исправления:
+- В общем случае будет добавлена проверка того, является ли первый параметр массивом:
+```js
+// Array.isArray(collection) ? collection.map(fn) : _.map(collection, fn);
+_.map(collection, fn);
+```
 
-You'll first need to install [ESLint](http://eslint.org):
+- Если при вызове явно указан литерал массива, то генерируется код без проверки:
+```js
+// Заменится на [].map(e => e);
+_.map([], e => e);
+```
+
+- Если при вызове используется объект, то данный вызов не будет считаться ошибкой:
+```js
+// Не изменится
+_.map({}, e => e);
+```
+
+
+
+
+## Установка
+
+Сначала необходимо установить [ESLint](http://eslint.org):
 
 ```
 $ npm i eslint --save-dev
 ```
 
-Next, install `eslint-plugin-lodash-to-native`:
+Затем установить данное правило `eslint-plugin-lodash-to-native`:
 
 ```
-$ npm install eslint-plugin-lodash-to-native --save-dev
+$ npm install -S https://github.com/Aracturat/eslint-plugin-lodash-to-native.git
 ```
 
-**Note:** If you installed ESLint globally (using the `-g` flag) then you must also install `eslint-plugin-lodash-to-native` globally.
+## Использование
 
-## Usage
-
-Add `lodash-to-native` to the plugins section of your `.eslintrc` configuration file. You can omit the `eslint-plugin-` prefix:
-
-```json
+Необходимо добавить в файл .eslintrc.js следующее :
+```js
 {
     "plugins": [
         "lodash-to-native"
-    ]
-}
-```
-
-
-Then configure the rules you want to use under the rules section.
-
-```json
-{
+    ],
     "rules": {
-        "lodash-to-native/map": 2
+        "lodash-to-native/map": "warn"
     }
 }
 ```
 
-## Supported Rules
+## Разработка
 
-* Map
+Для запуска тестов запустите `npm test`.
